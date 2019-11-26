@@ -1,0 +1,157 @@
+<html>
+
+<head>
+    <title>JAVASCRIPT HW3</title>
+</head>
+
+<body>
+    <script>
+        // ЗАДАНИЯ ДЛЯ РАЗМИНКИ!!!!!!)))
+
+        //1) Есть участок кода! обернуть в try catch нужный участок кода и выбросить ошибку если getResult возвращает undefined
+        function getResult() {
+            var obj = {
+                name: 'Sergei',
+                lastName: 'Shakhov'
+            }
+            return
+            obj;
+        }
+        const a = getResult();
+        console.log('RESULT', a);
+
+        //Решение ---------------------------------
+        function getResult() {
+            var obj = {
+                name: 'Sergei',
+                lastName: 'Shakhov'
+            };
+            return 
+                obj;
+        };
+
+        try {
+            const a = getResult();
+            if (typeof(a) == 'undefined') {
+                throw a;
+            };
+            console.log('RESULT', a);
+        }
+        catch(e) {
+            console.log(`We caught an error: ${e}`);
+        };
+
+
+        //2) исправить код чтобы консоль логи показывали от 0 до 10, и написать почему сейчас выводит десять десяток!!
+        for (var i = 0; i < 10; i++) {
+            setTimeout(() => console.log(i), 0);
+        }
+        // SetTimeout выводит десять десятков, потому что не передавали аргумент i для функции, которую выполнял setTimeout и i в callstack был равен 10
+
+        //Решение ----------------------------------
+
+        for (var i = 0; i < 10; i++) {
+            //console.log(i)
+            setTimeout( (k) => console.log(k), 0, i);
+        };
+   
+        // 3) Есть код!! В какой последовательности выполнится!
+        function getDatas() {
+            return [
+                {
+                    name: "Vasia"
+                },
+                {
+                    name: "Boria"
+                },
+                {
+                    name: "Misha"
+                },
+            ]
+        }
+        const res = getDatas();
+        console.log('RES', res);
+        setTimeout(console.log('settimeout1'), 100);
+        setTimeout(console.log('settimeout'), 10);
+        console.log('One');
+        console.log('two');
+        //---------------------------------------
+        
+        //1.res
+        //2. 'one'
+        //3. 'two'
+        //4. setTimeout((),10); 
+        //5. setTimeout((),100); 
+
+        //4) Что выведет alert в setTimeOut
+        setTimeout(function () {
+            alert(i);
+        }, 100);
+
+        for (var i = 0; i < 1000000; i++) {
+        }
+        // alert вывел цикл через 100мс 
+
+        // 5) Есть функция funct! Сделать из нее функцию конструктор которая создает обьект со свойствами name lastName
+        //-----------------------------------------------
+        function funct(name, lastName) {
+            // ваш код
+            this.name = name;
+            this.lastname = lastName;
+        }
+            let person = new funct('Milla', 'Kaidalova')
+            console.log(person);
+
+        // 6) Создать функцию конструктор, которая принимает обьект и берет только lastName и position и создает обьект с этих свойств
+        function factory() {
+            return {
+                name: 'ZINA'
+            };
+        }
+        new factory({ name: 'Sergei', lastName: 'Shakhov', height: 188, position: 'Software developer' });
+
+        //Решение -------------------------------------------------------
+
+        function factory({lastName, position}) {
+            this.lastName = lastName;
+            this. position = position;
+        }
+
+        let person =  new factory({ name: 'Sergei', lastName: 'Shakhov', height: 188,position: 'Software developer' });
+
+        console.log(person);
+
+        // 7)  Создать функцию конструктор, которая принимает два свойства name, lastName конкатенирует их и сохраняет в замыкании в переменной fullName
+        // random свойства не будет в обьекте ОБРАТИТЕ ВНИМАНИЕ потому что есть return!! Если не было бы return то был бы обьект с одним свойством
+        function factory() {
+            var fullName;
+            this.random = Math.random();
+
+            return {
+                name: 'ZINA Borisova',
+                getRealName: function() {
+                    return fullName;
+                }
+            };
+        }
+        new factory(name, lastName);
+
+        // 8) Есть код! Почему строчка с комментарием покажет {misha: NADUSHA}! Сделать так чтобы a.getObject(); вернул {misha: 'misha'}
+        // то есть должны быть независимые обьекты!!
+        function newFactory(obj) {
+            var object = obj;
+
+            return {
+                getObject: function() {
+                    return object;
+                }
+            };
+        }
+        var a = newFactory({misha: 'misha'});
+        var k = a.getObject();
+       // k.misha = 'NADUSHA'; 
+        a.getObject(); // покажет {misha: 'misha'}
+    </script>
+</body>
+
+</html>
