@@ -1,0 +1,101 @@
+<html>
+
+<head>
+    <title>JAVASCRIPT</title>
+</head>
+
+<body>
+    <script>
+        // ЗАДАНИЯ ДЛЯ РАЗМИНКИ!!!!!!)))
+
+
+        //1) Есть код ! с помощью async await реализуем правильную последовательность!!
+        setTimeout(()=> console.log('1'), 1300);
+        console.log('2')
+        console.log('3')
+        setTimeout(()=> console.log('4'), 300);
+        console.log('5')
+
+        //Решение-------------------------------------------------------------
+
+        function timeout(ms, text) {
+            console.log(text);
+            return new Promise( (resolve) => setTimeout(resolve, ms) );
+        };
+        async function f() {
+            await timeout(1300, "1");
+            console.log('2');
+            console.log('3');
+            await timeout(300, "4");
+            console.log('5');
+        };
+
+        f();
+
+
+        // 2) Есть роуты!! Делаем через async await то что в предыдущей!
+        // https://playwithpromise.herokuapp.com/api/order-review/last - вернет обьект с id такой( 5dcb2558526eb500173b129d )
+        // после чего используя id делаем другой запрос
+        // https://playwithpromise.herokuapp.com/api/order-review/getid/{id} 
+        // https://playwithpromise.herokuapp.com/api/order-system/product/{productId}
+
+        //Решение -------------------------------------------------------
+
+        const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+        const req1URL = 'https://playwithpromise.herokuapp.com/api/order-review/last'
+        const req2URL = 'https://playwithpromise.herokuapp.com/api/order-review/getid/'
+        const req3URL = 'https://playwithpromise.herokuapp.com/api/order-system/product/'
+
+        function requestSend(method, url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest()
+                 xhr.open(method, url)
+                 xhr.onload = () => {
+                    if(xhr.status >= 400) {
+                        reject(xhr.responseText)
+                    } else {
+                        resolve(JSON.parse(xhr.responseText))
+                    }
+                 }
+                 xhr.onerror = () => {
+                    reject(xhr.responseText)
+                 }
+                 xhr.send()
+            })
+        };
+
+        async function f() {
+            let data = await requestSend('GET', req1URL) 
+            //console.log (data);
+            let id = data._id;
+            //console.log(id)
+            data = await requestSend('GET', req2URL + id);
+            //console.log (data);
+            let arr = data.orderList;
+            //console.log(arr)
+            
+            let productId2 = [];
+            
+            for(let i = 0; i < arr.length; i ++ ) {
+             productId2.push(arr[i].productId)
+                }
+               console.log(productId2)
+                 for(let i = 0; i < productId2.length; i++) {
+                    data = await requestSend('GET', req3URL + productId2[i]);
+                    console.log(data)
+                }
+
+            }
+           
+
+        f()
+
+
+
+
+
+        
+    </script>
+</body>
+
+</html>
