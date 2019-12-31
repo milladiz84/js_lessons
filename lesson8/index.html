@@ -101,6 +101,16 @@
                 status: 'Closed'
             }];
 
+        //////////////////Решение/////////////////////////////
+
+        let newclaims = {};
+
+        for(let i = 0; i < claims.length; i++){
+            newclaims[claims[i].id]=claims[i];
+        }
+
+        console.log(newclaims);
+
         //4) Дан массив arr! Вернуть те которые в квадрате меньше самого большого значения
         const arr = [10, 6, 3, 5, 6, 2, 12, 64];
 
@@ -148,6 +158,7 @@
             // your code
         }
         some([5, 2, 5, 1, 6, 3, 6], (el) => el > 5 );
+
         // 6) Переопределить toString функции getArrayClone и обьекта iron
         function getArrayClone(arr) {
             return arr.slice();
@@ -160,9 +171,33 @@
         var arr1 = [5, 2, 'a'];
         var arr2 = [6, 5, 2, 4, 'a'];  
 
+        ////////////////Решение////////////////////////////
+
+        var arr1 = [5, 2, 'a'];
+        var arr2 = [6, 5, 2, 4, 'a'];
+
+        function writear(sourcear, filterarr) {
+            let isexist;
+            let res = [];
+
+            for(let i = 0; i < sourcear.length; i++) {
+                isexist = false;
+                for(let j = 0; j < filterarr.length; j++) {
+                    if(sourcear[i] === filterarr[j]) {      
+                        isexist = true;
+                    }
+                }
+                if (isexist == false) {
+                    res.push(sourcear[i]);
+                }
+            }
+            return res;
+        }
+        console.log(writear(arr2, arr1));
+
         // 8) Какой контекст имеет первый и второй массив?
         var arr1 = [5, 2, 'a'];
-        var arr2 = [6, 5, 2, 4, 'a'];  
+        var arr2 = [6, 5, 2, 4, 'a']; //1 и 2 - глобальный
 
         // 9) Есть два обьекта! Вызвать getSpeed1() с контекстом car2 и getSpeed2 с контекстом car1
         var car1 =  {
@@ -177,6 +212,10 @@
                 return `${this.speed}km`;
             }, 
         }
+        ////////////////////////Решение///////////////////////
+
+        console.log(car1.getSpeed1.call(car2));
+        console.log(car2.getSpeed2.apply(car1));
 
         //10) Есть массив из обьектов нужно отфильтровать только те у которых цена больше 40000 и где model не равна Mercedes с помощью filter!
         const car = [

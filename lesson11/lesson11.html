@@ -90,10 +90,52 @@
 
         f()
 
+        //2 вариант более короткий
 
+        const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
+        const URL = 'https://playwithpromise.herokuapp.com';
+        const req1URL = URL + '/api/order-review/last';
+        const req2URL = URL + '/api/order-review/getid/';
+        const req3URL = URL + '/api/order-system/product/';
 
+        function requestSend(method, url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                 xhr.open(method, url);
+            //       xhr.responseType = 'json'
+                 xhr.onload = () => {
+                    if(xhr.status >= 400) {
+                        reject(xhr.responseText)
+                    } else {
+                        resolve(JSON.parse(xhr.responseText))
+                    };
+                 };
+                 xhr.onerror = () => {
+                    reject(xhr.responseText)
+                 };
+                 xhr.send();
+            });
+        };
 
+        function workobj(data) {
+            //do magic
+            console.log(data);
+        };
+
+        async function f() {
+            let data;
+
+            data = await requestSend('GET', req1URL);
+            data = await requestSend('GET', req2URL + data._id);
+            for(let i = 0; i < data.orderList.length; i ++ ) {
+                
+                workobj( await requestSend('GET', req3URL + data.orderList[i].productId) );
+            };
+        };
+         
+
+        f();
         
     </script>
 </body>
